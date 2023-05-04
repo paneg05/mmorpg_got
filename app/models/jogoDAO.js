@@ -41,11 +41,15 @@ class jogoDAO{
         const date = new Date()
         const tempo = null
 
-        switch(acao.acao){
+        switch(parseInt(acao.acao)){
             case 1: tempo = 1 * 60 * 60000;
+                break
             case 2: tempo = 2 * 60 * 60000;
+                break
             case 3: tempo = 5 * 60 * 60000;
+                break
             case 4: tempo = 5 * 60 * 60000;
+                break
         }
 
         acao.terminaEm= date.getTime() + tempo
