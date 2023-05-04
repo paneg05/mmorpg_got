@@ -14,6 +14,33 @@
 		<!-- incluindo css -->
 		<link href="css/style.css" rel="stylesheet">
 
+		<script>
+			$(document).ready(()=>{
+				$('#btn_sair').click(()=>{
+					window.location.href='/sair'
+				})
+				$('#btn-suditos').click(()=>{
+					$('#msg_erros').hide()
+					$('#msg').hide()
+					$.ajax({
+						url:'/suditos',
+						method:'get',
+						success: data => $('#acoes').html(data)
+						
+					})
+				})
+				$('#btn-pergaminho').click(()=>{
+					$('#msg_erros').hide()
+					$('#msg').hide()
+					$.ajax({
+						url:'/pergaminhos',
+						method:'get',
+						success: data => $('#acoes').html(data)
+					})
+				})
+			})
+		</script>
+
 	</head>
 
 	<body class="body-jogo">
@@ -21,38 +48,52 @@
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
 				<div class="form-group sair">
-					<button type="button" class="btn btn-info pull-right">Sair</button>
+					<button id="btn_sair" type="button" class="btn btn-info pull-right">Sair</button>
 				</div>
 			</div>
 		</nav>
 
 	    <div class="container">
+
+			<% if(comandoInvalido==='s') {%>
+				<div class="alert alert-danger" id="msg_erros">
+					<strong>Operação inválida, verifique se todos so campos foram informados</strong>
+				</div>
+			<% } %>
+
+			<% if(comandoInvalido==='b') {%>
+				<div class="alert alert-info" id="msg">
+					<strong>Ação realizada com sucesso!</strong>
+				</div>
+			<% } %>
+
+			
 	    	
 			<div class="row">
 	    		<div class="col-sm-3 casa">
-					<img src="images/casa_martell.jpg" />
+					<img src="images/casa_<%= img_casa %>.jpg" />
 				</div>
 
 	    		<div class="col-sm-9">
 					<div class="row barra-superior">
 						<div class="col-sm-2"> 
 							<img src="images/habilidades/temor.jpg" title="Temor" alt="Temor" />
-							<span>754</span>
+							<span><%= parametros.temor %></span>
 						</div>
 						
 						<div class="col-sm-2"> 
 							<img src="images/habilidades/sabedoria.jpg" title="Sabedoria" alt="Sabedoria"/>
-							<span>754</span>
+							<span><%= parametros.sabedoria %></span>
 						</div>
 						
 						<div class="col-sm-2"> 
 							<img src="images/habilidades/comercio.jpg" title="Comércio" alt="Comércio"/>
-							<span>754</span>
+							<span><%= parametros.comercio %></span>
 						</div>
 						
 						<div class="col-sm-2"> 
 							<img src="images/habilidades/magia.jpg" title="Magia" alt="Magia"/>
-							<span>754</span>
+							<span><%= parametros.magia %></span>
 						</div>
 					</div>
 				</div>
@@ -61,7 +102,9 @@
 			<div class="row">
 				<div class="col-sm-3"></div>
 				<div class="col-sm-9">
-					<div class="acoes"></div>					
+					<div class="acoes" id="acoes">
+						Senhor, o que deseja fazer hoje ?
+					</div>					
 				</div>
 			</div>
 			
@@ -72,11 +115,12 @@
 			
 				<div class="row">
 					<div class="col-sm-1">
-						<img src="images/outros/suditos.jpg" title="Aldeões" alt="Aldeões"/>
+						<img id="btn-suditos" src="images/outros/suditos.jpg" title="Aldeões" alt="Aldeões"/>
+						<span><%= parametros.suditos %></span>
 					</div>
 					
 					<div class="col-sm-1">
-						<img src="images/outros/pergaminho.jpg" title="Pergaminhos" alt="Pergaminhos"/>
+						<img id="btn-pergaminho" src="images/outros/pergaminho.jpg" title="Pergaminhos" alt="Pergaminhos"/>
 					</div>
 					
 					<div class="col-sm-8"></div>

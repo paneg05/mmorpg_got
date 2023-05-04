@@ -3,7 +3,7 @@ module.exports.cadastro=function (application,req,res){
     res.render('cadastro',{validacao:{},dadosForm:{}})
 }
 
-module.exports.cadastrar=(application,req,res)=>{
+module.exports.cadastrar=async(application,req,res)=>{
     const dadosForm = req.body
 
     req.assert('nome','Nome não pode ser vazio').notEmpty()
@@ -18,5 +18,12 @@ module.exports.cadastrar=(application,req,res)=>{
         return
     }
 
+
+    const usuariosDAO = new application.app.models.usuariosDAO
+    await usuariosDAO.inserirUsuario(dadosForm)//Insere os dados no banco de dados
+    
+    const jogoDAO = new application.app.models.jogoDAO
+    await jogoDAO.gerarParametros(dadosForm.usuario)
+    console.log()
     res.send(dadosForm)
 }
