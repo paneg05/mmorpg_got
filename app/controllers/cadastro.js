@@ -1,3 +1,5 @@
+
+
 module.exports.cadastro=function (application,req,res){
 
     res.render('cadastro',{validacao:{},dadosForm:{}})
@@ -20,10 +22,9 @@ module.exports.cadastrar=async(application,req,res)=>{
 
 
     const usuariosDAO = new application.app.models.usuariosDAO
-    await usuariosDAO.inserirUsuario(dadosForm)//Insere os dados no banco de dados
+    await usuariosDAO.inserirUsuario( dadosForm)//Insere os dados no banco de dados
     
     const jogoDAO = new application.app.models.jogoDAO
     await jogoDAO.gerarParametros(dadosForm.usuario)
-    console.log()
     res.send(dadosForm)
 }

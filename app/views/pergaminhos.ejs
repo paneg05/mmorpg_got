@@ -17,13 +17,17 @@
 					case '4': txtAcao = `alde${el.quantidade>1?`ôes`:`ão`} em treinamento de magia`;
 						break
 				}
+
+				const date =new Date()
+				const momentoAtual = date.getTime()
+				const segundosRestantes=Math.round((el.terminaEm - momentoAtual) / 1000) 
 			%>
 			
 			<li>
 				<%= el.quantidade %> <%= txtAcao %>
 				<small>
-					restam 00000 segundos - 
-					<a href="#">revogar ordem</a>
+					restam <span class="tempo-restante"><%= segundosRestantes %></span>  segundos - 
+					<a href="/revogar_acao?id_acao=<%= el._id %>">revogar ordem</a>
 				</small>
 			</li>
 		<% }) %>

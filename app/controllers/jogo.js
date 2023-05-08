@@ -1,5 +1,6 @@
 
 
+
 module.exports.jogo=async (application, req, res)=>{
 
     if(req.session.autorizado !== true){
@@ -19,6 +20,7 @@ module.exports.jogo=async (application, req, res)=>{
 
     const parametros = await jogoDAO.iniciaJogo(usuario)
 
+    console.log(parametros)
     res.render('jogo',{
         img_casa:req.session.casa,
         parametros,
@@ -51,7 +53,6 @@ module.exports.pergaminhos=async (application,req,res)=>{
 
     const usuario=req.session.usuario
     const acoes = await jogoDAO.getAcoes(usuario)
-    console.log(acoes)
     res.render('pergaminhos',{acoes})
 }
 
@@ -78,4 +79,14 @@ module.exports.ordenar_acao_sudito=(application,req,res)=>{
     jogoDAO.acao(dadosForm)
 
     res.redirect('jogo?msg=b')
+}
+
+module.exports.revogar_acao=(application, req, res)=>{
+    const urlQuery = req.query
+
+    const jogoDAO= new application.app.models.jogoDAO(req,res)
+
+    jogoDAO.revogarAcao(urlQuery.id_acao)
+
+    res.redirect('/jogo?msg=d')
 }

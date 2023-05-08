@@ -15,7 +15,32 @@
 		<link href="css/style.css" rel="stylesheet">
 
 		<script>
+
+
 			$(document).ready(()=>{
+
+				const Interval = setInterval(() => {
+					cronometro()
+				}, 1000);
+
+				const cronometro = () =>{
+					const el = document.getElementsByClassName('tempo-restante')
+							
+					for(let i=0;i<el.length;i++){
+						let segundos = el[i].textContent
+						let segundosAtuais= segundos<=0?0:parseInt(segundos) - 1
+
+								
+
+						if(segundosAtuais<=0){
+							window.location.href= '/jogo?msg=c'		
+						} else {			
+							el[i].innerHTML = segundosAtuais			
+						}
+					}
+				}	
+
+
 				$('#btn_sair').click(()=>{
 					window.location.href='/sair'
 				})
@@ -35,10 +60,18 @@
 					$.ajax({
 						url:'/pergaminhos',
 						method:'get',
-						success: data => $('#acoes').html(data)
+						success: data => {
+							$('#acoes').html(data)
+							
+						}
 					})
 				})
 			})
+
+			
+			
+			
+			
 		</script>
 
 	</head>
@@ -64,6 +97,18 @@
 			<% if(comandoInvalido==='b') {%>
 				<div class="alert alert-info" id="msg">
 					<strong>Ação realizada com sucesso!</strong>
+				</div>
+			<% } %>
+
+			<% if(comandoInvalido==='c') {%>
+				<div class="alert alert-info" id="msg">
+					<strong>Senhor, a atividade ordenada foi finalizada!</strong>
+				</div>
+			<% } %>
+
+			<% if(comandoInvalido==='d') {%>
+				<div class="alert alert-info" id="msg">
+					<strong>Senhor, sua ordem foi revogada!</strong>
 				</div>
 			<% } %>
 
@@ -127,7 +172,7 @@
 					
 					<div class="col-sm-2">
 						<img src="images/outros/moeda.jpg" title="Moeda" alt="Moeda"/>
-						<span>25</span>
+						<span><%= parametros.moedas %></span>
 					</div>
 					
 				</div>
